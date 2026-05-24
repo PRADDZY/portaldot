@@ -5,6 +5,24 @@ $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 $contractDir = Join-Path $repoRoot "contracts\identity-workflow-registry"
 $outPath = Join-Path $contractDir "metadata.json"
 
+function Ensure-CargoBinInPath {
+  $cargoBin = Join-Path $env:USERPROFILE ".cargo\bin"
+  if (-not (Test-Path $cargoBin)) {
+    return
+  }
+  $pathItems = $env:PATH -split ";" | Where-Object { $_ -and $_.Trim() -ne "" }
+  if ($pathItems -contains $cargoBin) {
+    return
+  }
+  $env:PATH = "$cargoBin;$env:PATH"
+}
+
+Ensure-CargoBinInPath
+
+if (-not (Test-Path $contractDir)) {
+  throw "Contract directory not found: $contractDir"
+}
+
 if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) {
   throw "cargo is not installed. Run scripts/setup_rust_toolchain.ps1 first."
 }
@@ -34,5 +52,8 @@ if (-not $metadataCandidate) {
 }
 
 Copy-Item -LiteralPath $metadataCandidate.FullName -Destination $outPath -Force
+if (-not (Test-Path $outPath)) {
+  throw "Contract metadata copy failed: $outPath"
+}
 Write-Host "Contract metadata copied to $outPath"
 

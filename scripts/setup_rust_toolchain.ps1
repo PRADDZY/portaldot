@@ -20,6 +20,24 @@ function Ensure-CargoBinInPath {
   Write-Host "Temporarily added $cargoBin to PATH for this session."
 }
 
+function Ensure-MsvcLinker {
+  if (Test-Tool "link") {
+    return
+  }
+
+  $installerScript = Join-Path $PSScriptRoot "install_vs_buildtools.ps1"
+  if (-not (Test-Path $installerScript)) {
+    throw "MSVC linker (link.exe) not found and installer script is missing: $installerScript"
+  }
+
+  Write-Host "Installing Visual Studio Build Tools C++ workload..."
+  & $installerScript
+
+  if (-not (Test-Tool "link")) {
+    throw "MSVC linker (link.exe) not found after Build Tools installation."
+  }
+}
+
 if (-not (Test-Tool "rustup")) {
   if (Test-Tool "winget") {
     Write-Host "Installing rustup with winget..."
@@ -40,9 +58,7 @@ rustup default stable
 rustup target add wasm32-unknown-unknown
 
 if (-not (Test-Tool "cargo-contract")) {
-  if (-not (Test-Tool "link")) {
-    throw "MSVC linker (link.exe) not found. Install Visual Studio Build Tools with C++ build tools, then rerun this script."
-  }
+  Ensure-MsvcLinker
   Write-Host "Installing cargo-contract..."
   cargo install cargo-contract --locked
 }
