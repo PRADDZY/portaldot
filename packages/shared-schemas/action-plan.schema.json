@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PortalSentinelActionPlan",
+  "type": "object",
+  "required": ["plan_id", "intent", "confidence", "steps"],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "description": "Unique plan identifier"
+    },
+    "intent": {
+      "type": "string",
+      "minLength": 5
+    },
+    "workspace_id": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["action", "params", "reason"],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "create_workspace",
+              "add_member",
+              "issue_credential",
+              "create_action",
+              "approve_action",
+              "execute_action",
+              "revoke_credential"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        }
+      }
+    }
+  }
+}
+
