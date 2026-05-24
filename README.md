@@ -137,16 +137,28 @@ To use a live chain:
 Toolchain + contract artifact commands:
 
 ```powershell
+pwsh ./scripts/install_vs_buildtools.ps1
 pwsh ./scripts/setup_rust_toolchain.ps1
 pwsh ./scripts/build_contract.ps1
 python ./scripts/check_ready.py --mode all
 python ./scripts/check_ready.py --mode contract
+python ./scripts/check_ready.py --mode live
 ```
 
 Notes:
 - `--mode all` validates the default app/demo path and warns if contract-only tooling is missing.
 - `--mode contract` is strict and should pass before a substrate-mode demo.
+- `--mode live` validates substrate env + RPC reachability for live chain execution.
 - Windows contract builds require Visual Studio Build Tools (C++/MSVC `link.exe`).
+
+Live substrate deploy + smoke commands:
+
+```powershell
+pwsh ./scripts/deploy_contract.ps1
+$env:CHAIN_MODE="substrate"
+python ./scripts/check_ready.py --mode live
+python ./scripts/live_substrate_smoke.py
+```
 
 ## Contract
 
