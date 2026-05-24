@@ -78,15 +78,20 @@ foreach ($packageId in $packageIds) {
   Write-Host "Attempting Build Tools install via winget package: $packageId"
   try {
     winget install --id $packageId -e --accept-package-agreements --accept-source-agreements --override $overrideArgs
-    $installed = $true
-    break
+    $rawExitCode = [int]$LASTEXITCODE
+    $normalizedExitCode = if ($rawExitCode -lt 0) { $rawExitCode + 4294967296 } else { $rawExitCode }
+    if ($normalizedExitCode -eq 0) {
+      $installed = $true
+      break
+    }
+    Write-Warning "Install attempt failed for ${packageId} with exit code ${normalizedExitCode}."
   } catch {
     Write-Warning "Install attempt failed for ${packageId}: $($_.Exception.Message)"
   }
 }
 
 if (-not $installed) {
-  throw "Failed to install Visual Studio Build Tools with winget."
+  throw "Failed to install Visual Studio Build Tools with winget. Check installer output for failure details."
 }
 
 $msvcBinPath = Resolve-MsvcBinPath
