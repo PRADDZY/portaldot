@@ -67,3 +67,28 @@ def test_plan_simulate_submit(tmp_path):
     submitted = service.submit(SubmitRequest(plan=plan_obj, confirm=True, caller="demo-caller"))
     assert submitted["ok"] is True
     assert len(submitted["steps"]) >= 3
+
+
+def test_execute_requires_approvals(tmp_path):
+    service = _service(tmp_path)
+    workspace = service.create_workspace(
+        payload=CreateWorkspaceInput(name="Team B", metadata_hash="ipfs://workspace-b"),
+        caller="alice",
+    )
+    workspace_id = workspace["workspace"]["workspace_id"]
+    action = service.create_action(
+        payload=CreateActionInput(
+            workspace_id=workspace_id,
+            action_type="grant_payout",
+            payload_hash="ipfs://grant-b",
+            required_role="admin",
+            min_approvals=2,
+        ),
+        caller="alice",
+    )
+    action_id = action["action"]["action_id"]
+    try:
+        service.execute_action(payload=ExecuteActionInput(action_id=action_id), caller="alice")
+        assert False, "expected execute_action to fail without enough approvals"
+    except Exception as exc:
+        assert "requires 2" in str(exc) or "InsufficientApprovals" in str(exc)
