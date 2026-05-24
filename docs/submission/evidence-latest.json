@@ -1,0 +1,469 @@
+{
+  "ok": true,
+  "mode": "mock",
+  "workspace_id": 1,
+  "action_id": 1,
+  "caller": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+  "steps": [
+    {
+      "step": "create_workspace",
+      "data": {
+        "workspace": {
+          "workspace_id": 1,
+          "name": "PortalSentinel Demo",
+          "metadata_hash": "ipfs://portalsentinel-demo-workspace",
+          "owner": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.385044+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0x5c328d580566f9edbe53d431f354a949e16bfcd7853c859eae3b63e6787eca2f",
+          "success": true,
+          "block_hash": "0xf2ace7876e36b3eae958c3587dcfb61e949a453f134d35ebde9f665085d823c5",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "create_workspace",
+              "payload": {
+                "name": "PortalSentinel Demo",
+                "metadata_hash": "ipfs://portalsentinel-demo-workspace"
+              }
+            }
+          ],
+          "message": "mock create_workspace accepted"
+        }
+      }
+    },
+    {
+      "step": "add_member",
+      "data": {
+        "member": {
+          "workspace_id": 1,
+          "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+          "role": "admin",
+          "added_at": "2026-05-23T20:53:04.459366+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0xf493aeb96ca0cabe2d12f911dbaac18063016109304dbb9e7a1ea758c50250fd",
+          "success": true,
+          "block_hash": "0xdf05205c857ae1a7e9bbd40390161036081caabd119f21d2ebac0ac69bea394f",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "add_member",
+              "payload": {
+                "workspace_id": 1,
+                "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+                "role": "admin"
+              }
+            }
+          ],
+          "message": "mock add_member accepted"
+        }
+      }
+    },
+    {
+      "step": "issue_credential",
+      "data": {
+        "credential": {
+          "credential_id": 1,
+          "workspace_id": 1,
+          "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+          "credential_type": "reviewer_badge",
+          "credential_hash": "ipfs://portalsentinel-credential",
+          "revoked": false,
+          "created_at": "2026-05-23T20:53:04.501631+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0xc57dde0ed911d06e0d7d400be8e521ff6cc57da9ffd30da1d82e78a77cc1bc36",
+          "success": true,
+          "block_hash": "0x63cb1cc77a87e28d1ad03dff9ad75cc6ff125e8eb004d7d0e60d119de0edd75c",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "issue_credential",
+              "payload": {
+                "workspace_id": 1,
+                "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+                "credential_type": "reviewer_badge",
+                "credential_hash": "ipfs://portalsentinel-credential"
+              }
+            }
+          ],
+          "message": "mock issue_credential accepted"
+        }
+      }
+    },
+    {
+      "step": "create_action",
+      "data": {
+        "action": {
+          "action_id": 1,
+          "workspace_id": 1,
+          "action_type": "grant_release",
+          "payload_hash": "ipfs://portalsentinel-action",
+          "required_role": "admin",
+          "min_approvals": 1,
+          "approvals": 0,
+          "status": "pending",
+          "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.509096+00:00",
+          "executed_at": null
+        },
+        "receipt": {
+          "tx_hash": "0x5cca18d61268e61ee9d34b46fc9c0ff933b7729a4c1e968a77eab104c6c73dea",
+          "success": true,
+          "block_hash": "0xaed37c6c401bae77a869e1c4a9277b339ff0c9cf64b43d9ee16e86216d81acc5",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "create_action",
+              "payload": {
+                "workspace_id": 1,
+                "action_type": "grant_release",
+                "payload_hash": "ipfs://portalsentinel-action",
+                "required_role": "admin",
+                "min_approvals": 1
+              }
+            }
+          ],
+          "message": "mock create_action accepted"
+        }
+      }
+    },
+    {
+      "step": "approve_action",
+      "data": {
+        "action": {
+          "action_id": 1,
+          "workspace_id": 1,
+          "action_type": "grant_release",
+          "payload_hash": "ipfs://portalsentinel-action",
+          "required_role": "admin",
+          "min_approvals": 1,
+          "approvals": 1,
+          "status": "ready",
+          "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.509096+00:00",
+          "executed_at": null
+        },
+        "receipt": {
+          "tx_hash": "0xdb6361d76dfcba3afdac95633fef4fcdfcd28ddfef53b0c791e4f1986158bd7a",
+          "success": true,
+          "block_hash": "0xa7db8516891f4e197c0b35fefdd82dcfdcf4fef33659cadfa3abcfd67d1636bd",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "approve_action",
+              "payload": {
+                "action_id": 1
+              }
+            }
+          ],
+          "message": "mock approve_action accepted"
+        }
+      }
+    },
+    {
+      "step": "execute_action",
+      "data": {
+        "action": {
+          "action_id": 1,
+          "workspace_id": 1,
+          "action_type": "grant_release",
+          "payload_hash": "ipfs://portalsentinel-action",
+          "required_role": "admin",
+          "min_approvals": 1,
+          "approvals": 1,
+          "status": "executed",
+          "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.509096+00:00",
+          "executed_at": "2026-05-23T20:53:04.525355+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0xa6c7a5fb8cff0fffe936131367d87b08ed8308d3c38595d7d6acae7e840e6b98",
+          "success": true,
+          "block_hash": "0x89b6e048e7eaca6d7d59583c3d8038de80b78d763131639efff0ffc8bf5a7c6a",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "execute_action",
+              "payload": {
+                "action_id": 1
+              }
+            }
+          ],
+          "message": "mock execute_action accepted"
+        }
+      }
+    }
+  ],
+  "list_views": {
+    "workspaces": [
+      {
+        "workspace_id": 1,
+        "name": "PortalSentinel Demo",
+        "metadata_hash": "ipfs://portalsentinel-demo-workspace",
+        "owner": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        "created_at": "2026-05-23T20:53:04.385044+00:00"
+      }
+    ],
+    "members": [
+      {
+        "workspace_id": 1,
+        "account": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        "role": "owner",
+        "added_at": "2026-05-23T20:53:04.385096+00:00"
+      },
+      {
+        "workspace_id": 1,
+        "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+        "role": "admin",
+        "added_at": "2026-05-23T20:53:04.459366+00:00"
+      }
+    ],
+    "actions": [
+      {
+        "action_id": 1,
+        "workspace_id": 1,
+        "action_type": "grant_release",
+        "payload_hash": "ipfs://portalsentinel-action",
+        "required_role": "admin",
+        "min_approvals": 1,
+        "approvals": 1,
+        "status": "executed",
+        "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        "created_at": "2026-05-23T20:53:04.509096+00:00",
+        "executed_at": "2026-05-23T20:53:04.525355+00:00"
+      }
+    ]
+  },
+  "events_tail": [
+    {
+      "event_id": 6,
+      "session_id": null,
+      "source": "chain",
+      "event_type": "action.executed",
+      "payload": {
+        "action": {
+          "action_id": 1,
+          "workspace_id": 1,
+          "action_type": "grant_release",
+          "payload_hash": "ipfs://portalsentinel-action",
+          "required_role": "admin",
+          "min_approvals": 1,
+          "approvals": 1,
+          "status": "executed",
+          "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.509096+00:00",
+          "executed_at": "2026-05-23T20:53:04.525355+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0xa6c7a5fb8cff0fffe936131367d87b08ed8308d3c38595d7d6acae7e840e6b98",
+          "success": true,
+          "block_hash": "0x89b6e048e7eaca6d7d59583c3d8038de80b78d763131639efff0ffc8bf5a7c6a",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "execute_action",
+              "payload": {
+                "action_id": 1
+              }
+            }
+          ],
+          "message": "mock execute_action accepted"
+        }
+      },
+      "created_at": "2026-05-23T20:53:04.526571+00:00"
+    },
+    {
+      "event_id": 5,
+      "session_id": null,
+      "source": "chain",
+      "event_type": "action.approved",
+      "payload": {
+        "action": {
+          "action_id": 1,
+          "workspace_id": 1,
+          "action_type": "grant_release",
+          "payload_hash": "ipfs://portalsentinel-action",
+          "required_role": "admin",
+          "min_approvals": 1,
+          "approvals": 1,
+          "status": "ready",
+          "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.509096+00:00",
+          "executed_at": null
+        },
+        "receipt": {
+          "tx_hash": "0xdb6361d76dfcba3afdac95633fef4fcdfcd28ddfef53b0c791e4f1986158bd7a",
+          "success": true,
+          "block_hash": "0xa7db8516891f4e197c0b35fefdd82dcfdcf4fef33659cadfa3abcfd67d1636bd",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "approve_action",
+              "payload": {
+                "action_id": 1
+              }
+            }
+          ],
+          "message": "mock approve_action accepted"
+        }
+      },
+      "created_at": "2026-05-23T20:53:04.515158+00:00"
+    },
+    {
+      "event_id": 4,
+      "session_id": null,
+      "source": "chain",
+      "event_type": "action.created",
+      "payload": {
+        "action": {
+          "action_id": 1,
+          "workspace_id": 1,
+          "action_type": "grant_release",
+          "payload_hash": "ipfs://portalsentinel-action",
+          "required_role": "admin",
+          "min_approvals": 1,
+          "approvals": 0,
+          "status": "pending",
+          "proposer": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.509096+00:00",
+          "executed_at": null
+        },
+        "receipt": {
+          "tx_hash": "0x5cca18d61268e61ee9d34b46fc9c0ff933b7729a4c1e968a77eab104c6c73dea",
+          "success": true,
+          "block_hash": "0xaed37c6c401bae77a869e1c4a9277b339ff0c9cf64b43d9ee16e86216d81acc5",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "create_action",
+              "payload": {
+                "workspace_id": 1,
+                "action_type": "grant_release",
+                "payload_hash": "ipfs://portalsentinel-action",
+                "required_role": "admin",
+                "min_approvals": 1
+              }
+            }
+          ],
+          "message": "mock create_action accepted"
+        }
+      },
+      "created_at": "2026-05-23T20:53:04.510665+00:00"
+    },
+    {
+      "event_id": 3,
+      "session_id": null,
+      "source": "chain",
+      "event_type": "credential.issued",
+      "payload": {
+        "credential": {
+          "credential_id": 1,
+          "workspace_id": 1,
+          "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+          "credential_type": "reviewer_badge",
+          "credential_hash": "ipfs://portalsentinel-credential",
+          "revoked": false,
+          "created_at": "2026-05-23T20:53:04.501631+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0xc57dde0ed911d06e0d7d400be8e521ff6cc57da9ffd30da1d82e78a77cc1bc36",
+          "success": true,
+          "block_hash": "0x63cb1cc77a87e28d1ad03dff9ad75cc6ff125e8eb004d7d0e60d119de0edd75c",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "issue_credential",
+              "payload": {
+                "workspace_id": 1,
+                "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+                "credential_type": "reviewer_badge",
+                "credential_hash": "ipfs://portalsentinel-credential"
+              }
+            }
+          ],
+          "message": "mock issue_credential accepted"
+        }
+      },
+      "created_at": "2026-05-23T20:53:04.503388+00:00"
+    },
+    {
+      "event_id": 2,
+      "session_id": null,
+      "source": "chain",
+      "event_type": "member.added",
+      "payload": {
+        "member": {
+          "workspace_id": 1,
+          "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+          "role": "admin",
+          "added_at": "2026-05-23T20:53:04.459366+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0xf493aeb96ca0cabe2d12f911dbaac18063016109304dbb9e7a1ea758c50250fd",
+          "success": true,
+          "block_hash": "0xdf05205c857ae1a7e9bbd40390161036081caabd119f21d2ebac0ac69bea394f",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "add_member",
+              "payload": {
+                "workspace_id": 1,
+                "account": "5FHneW46xGXgs5mUiveU4sbTyGBzmstq6Y4vdQ2sM6mYj4aS",
+                "role": "admin"
+              }
+            }
+          ],
+          "message": "mock add_member accepted"
+        }
+      },
+      "created_at": "2026-05-23T20:53:04.461192+00:00"
+    },
+    {
+      "event_id": 1,
+      "session_id": null,
+      "source": "chain",
+      "event_type": "workspace.created",
+      "payload": {
+        "workspace": {
+          "workspace_id": 1,
+          "name": "PortalSentinel Demo",
+          "metadata_hash": "ipfs://portalsentinel-demo-workspace",
+          "owner": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+          "created_at": "2026-05-23T20:53:04.385044+00:00"
+        },
+        "receipt": {
+          "tx_hash": "0x5c328d580566f9edbe53d431f354a949e16bfcd7853c859eae3b63e6787eca2f",
+          "success": true,
+          "block_hash": "0xf2ace7876e36b3eae958c3587dcfb61e949a453f134d35ebde9f665085d823c5",
+          "fee": null,
+          "explorer_url": null,
+          "events": [
+            {
+              "label": "create_workspace",
+              "payload": {
+                "name": "PortalSentinel Demo",
+                "metadata_hash": "ipfs://portalsentinel-demo-workspace"
+              }
+            }
+          ],
+          "message": "mock create_workspace accepted"
+        }
+      },
+      "created_at": "2026-05-23T20:53:04.386931+00:00"
+    }
+  ]
+}

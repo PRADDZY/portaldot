@@ -24,6 +24,7 @@ apps/dashboard/                         # judge replay dashboard (Next.js)
 packages/shared-schemas/                # JSON schema for AI action plans
 src/portalsentinel/                     # Python core (API, CLI, planner, adapters, store)
 tests/python/                           # pytest coverage for workflow lifecycle
+scripts/                                # readiness, contract build, e2e, reset helpers
 docs/demo/                              # demo script and run order
 docs/submission/                        # submission checklist and mapping to judging criteria
 ```
@@ -133,6 +134,20 @@ To use a live chain:
 - provide compiled metadata file at `CONTRACT_METADATA_PATH`,
 - set signer via `DEMO_SIGNER_URI`.
 
+Toolchain + contract artifact commands:
+
+```powershell
+pwsh ./scripts/setup_rust_toolchain.ps1
+pwsh ./scripts/build_contract.ps1
+python ./scripts/check_ready.py --mode all
+python ./scripts/check_ready.py --mode contract
+```
+
+Notes:
+- `--mode all` validates the default app/demo path and warns if contract-only tooling is missing.
+- `--mode contract` is strict and should pass before a substrate-mode demo.
+- Windows contract builds require Visual Studio Build Tools (C++/MSVC `link.exe`).
+
 ## Contract
 
 Contract path:
@@ -147,6 +162,7 @@ Contract methods:
 - `execute_action`
 - `revoke_credential`
 - getters: `get_workspace`, `get_member_role`, `get_credential`, `get_action`
+- enumeration: `workspace_count`, `workspace_id_at`, `member_count`, `member_at`, `action_count`, `action_id_at`, `workspace_action_count`, `workspace_action_id_at`
 
 ## Tests
 
@@ -159,9 +175,19 @@ pytest -q tests/python
 Contract unit tests are embedded in:
 - `contracts/identity-workflow-registry/src/lib.rs`
 
+Operational checks and evidence capture:
+
+```powershell
+python ./scripts/check_ready.py --mode all
+python ./scripts/check_ready.py --mode contract
+python ./scripts/e2e_workflow.py
+python ./scripts/failure_scenario.py
+python ./scripts/demo_reset.py --purge-evidence
+```
+
 ## Demo and submission docs
 
 - Demo runbook: [docs/demo/demo-script.md](docs/demo/demo-script.md)
 - Submission checklist: [docs/submission/checklist.md](docs/submission/checklist.md)
 - Judging mapping: [docs/submission/judging-map.md](docs/submission/judging-map.md)
-
+- Portaldot usage draft: [docs/submission/how-it-uses-portaldot.md](docs/submission/how-it-uses-portaldot.md)

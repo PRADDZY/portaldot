@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "mode": "mock",
+  "scenario": "execute before required approvals",
+  "expected_error": "action 1 has 0 approvals but requires 2",
+  "workspace_id": 2,
+  "action_id": 1
+}
