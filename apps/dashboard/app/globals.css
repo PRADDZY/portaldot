@@ -35,7 +35,7 @@ body {
 .hero {
   display: flex;
   gap: 1rem;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
@@ -191,4 +191,3 @@ h2 {
     flex-direction: column;
   }
 }
-
