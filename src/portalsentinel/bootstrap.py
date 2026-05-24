@@ -11,7 +11,7 @@ from portalsentinel.store import EventStore
 
 def build_adapter(settings: Settings) -> ChainAdapter:
     if settings.chain_mode == "mock":
-        return MockChainAdapter()
+        return MockChainAdapter(state_path=settings.data_dir / "mock_state.json")
 
     if not settings.contract_address or not settings.contract_metadata_path:
         raise RuntimeError("substrate mode requires CONTRACT_ADDRESS and CONTRACT_METADATA_PATH")
@@ -33,4 +33,3 @@ def build_service(settings: Settings | None = None) -> PortalService:
     adapter = build_adapter(settings)
     planner = AIPlanner(settings)
     return PortalService(adapter=adapter, store=store, planner=planner, mode=settings.chain_mode)
-

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from collections import defaultdict
+from pathlib import Path
 from typing import Any
 
 from portalsentinel.adapters.base import ChainAdapter
@@ -28,7 +30,8 @@ from portalsentinel.models import (
 class MockChainAdapter(ChainAdapter):
     """Deterministic in-memory adapter used for local build and tests."""
 
-    def __init__(self) -> None:
+    def __init__(self, state_path: Path | None = None) -> None:
+        self._state_path = state_path
         self._workspace_id = 0
         self._credential_id = 0
         self._action_id = 0
@@ -38,6 +41,7 @@ class MockChainAdapter(ChainAdapter):
         self._actions: dict[int, ActionRecord] = {}
         self._workspace_actions: dict[int, list[int]] = defaultdict(list)
         self._approvals: dict[int, set[str]] = defaultdict(set)
+        self._load_state()
 
     def _tx(self, label: str, payload: dict[str, Any]) -> ChainTxReceipt:
         body = f"{label}:{payload}:{utc_now_iso()}".encode("utf-8")
@@ -51,6 +55,50 @@ class MockChainAdapter(ChainAdapter):
             message=f"mock {label} accepted",
             events=[{"label": label, "payload": payload}],
         )
+
+    def _load_state(self) -> None:
+        if not self._state_path or not self._state_path.exists():
+            return
+        raw = json.loads(self._state_path.read_text(encoding="utf-8"))
+        self._workspace_id = int(raw.get("workspace_id", 0))
+        self._credential_id = int(raw.get("credential_id", 0))
+        self._action_id = int(raw.get("action_id", 0))
+
+        for row in raw.get("workspaces", []):
+            workspace = WorkspaceRecord.model_validate(row)
+            self._workspaces[workspace.workspace_id] = workspace
+
+        for row in raw.get("members", []):
+            member = MemberRecord.model_validate(row)
+            self._members[member.workspace_id][member.account] = member
+
+        for row in raw.get("credentials", []):
+            credential = CredentialRecord.model_validate(row)
+            self._credentials[credential.credential_id] = credential
+
+        for row in raw.get("actions", []):
+            action = ActionRecord.model_validate(row)
+            self._actions[action.action_id] = action
+            self._workspace_actions[action.workspace_id].append(action.action_id)
+
+        for action_id, accounts in raw.get("approvals", {}).items():
+            self._approvals[int(action_id)] = set(accounts)
+
+    def _save_state(self) -> None:
+        if not self._state_path:
+            return
+        self._state_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "workspace_id": self._workspace_id,
+            "credential_id": self._credential_id,
+            "action_id": self._action_id,
+            "workspaces": [row.model_dump() for row in self._workspaces.values()],
+            "members": [row.model_dump() for ws in self._members.values() for row in ws.values()],
+            "credentials": [row.model_dump() for row in self._credentials.values()],
+            "actions": [row.model_dump() for row in self._actions.values()],
+            "approvals": {str(action_id): sorted(list(accounts)) for action_id, accounts in self._approvals.items()},
+        }
+        self._state_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     def _role_rank(self, role: Role) -> int:
         order = {
@@ -111,6 +159,7 @@ class MockChainAdapter(ChainAdapter):
             account=caller,
             role=Role.OWNER,
         )
+        self._save_state()
         receipt = self._tx("create_workspace", payload.model_dump())
         return workspace, receipt
 
@@ -119,6 +168,7 @@ class MockChainAdapter(ChainAdapter):
         self._assert_role(payload.workspace_id, caller, Role.ADMIN)
         member = MemberRecord(workspace_id=payload.workspace_id, account=payload.account, role=payload.role)
         self._members[payload.workspace_id][payload.account] = member
+        self._save_state()
         receipt = self._tx("add_member", payload.model_dump())
         return member, receipt
 
@@ -136,6 +186,7 @@ class MockChainAdapter(ChainAdapter):
             credential_hash=payload.credential_hash,
         )
         self._credentials[record.credential_id] = record
+        self._save_state()
         receipt = self._tx("issue_credential", payload.model_dump())
         return record, receipt
 
@@ -156,6 +207,7 @@ class MockChainAdapter(ChainAdapter):
         )
         self._actions[action.action_id] = action
         self._workspace_actions[payload.workspace_id].append(action.action_id)
+        self._save_state()
         receipt = self._tx("create_action", payload.model_dump())
         return action, receipt
 
@@ -172,6 +224,7 @@ class MockChainAdapter(ChainAdapter):
         action.approvals = len(self._approvals[action.action_id])
         if action.approvals >= action.min_approvals:
             action.status = ActionStatus.READY
+        self._save_state()
         receipt = self._tx("approve_action", payload.model_dump())
         return action, receipt
 
@@ -188,6 +241,7 @@ class MockChainAdapter(ChainAdapter):
             )
         action.status = ActionStatus.EXECUTED
         action.executed_at = utc_now_iso()
+        self._save_state()
         receipt = self._tx("execute_action", payload.model_dump())
         return action, receipt
 
@@ -201,6 +255,6 @@ class MockChainAdapter(ChainAdapter):
         if record.revoked:
             raise ValueError(f"credential {record.credential_id} already revoked")
         record.revoked = True
+        self._save_state()
         receipt = self._tx("revoke_credential", payload.model_dump())
         return record, receipt
-
