@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+.next/
+out/
+
+# Rust
+target/
+Cargo.lock
+
+# Local data and secrets
+.env
+data/
+*.sqlite3
+*.db
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
